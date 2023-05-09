@@ -29,6 +29,13 @@ struct AddUserView: View {
                 TextField("last name", text: $lastName)
                     .textFieldStyle(.roundedBorder)
             }.padding(20)
+            
+            Button(action: {
+                addUser()
+            }) {
+                Text("Add")
+            }
+            .padding(10)
         }
     }
 }
