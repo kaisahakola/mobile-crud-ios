@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 func parseJson(json: Data) -> Array<User>? {
     do {
@@ -17,18 +18,15 @@ func parseJson(json: Data) -> Array<User>? {
     }
 }
 
-func fetchData(callback : @escaping (_ users: Array<User>?) -> Void) {
-    DispatchQueue.main.async() {
-        let myURL = URL(string: "https://dummyjson.com/users")!
-        let httpTask = URLSession.shared.dataTask(with: myURL) {
-            (optionalData, response, error) in
-                if let data = optionalData {
-                    let users = parseJson(json: data)
-                    callback(users)
-                } else {
-                    callback(nil)
-                }
+func fetchData(callback : @escaping (_ users: Array<User>?) -> Void) {    
+    AF.request("https://dummyjson.com/users").responseDecodable(of: Result.self) { response in
+        switch response.result {
+        case .success(let value):
+            callback(value.users)
+        case .failure(let error):
+            print(error)
+            callback(nil)
         }
-        httpTask.resume()
     }
+    
 }
