@@ -13,13 +13,20 @@ struct ContentView: View {
     
     var body: some View {
         if(users != nil) {
-            Text("Kaisa's iOS App")
-                .bold()
-                .font(.system(size: 30))
-            
-            List {
-                ForEach(users!, id: \.firstName) {
-                    user in Text("\(user.firstName) \(user.lastName)")
+            NavigationView {
+                NavigationStack {
+                    Text("Kaisa's iOS App")
+                        .bold()
+                        .font(.system(size: 30))
+                    
+                    List {
+                        ForEach(users!, id: \.firstName) {
+                            user in Text("\(user.firstName) \(user.lastName)")
+                        }
+                    }
+                    NavigationLink(destination: AddUserView()) {
+                        Text("Add user")
+                    }.padding(10)
                 }
             }
         } else {
@@ -32,3 +39,4 @@ struct ContentView: View {
         }
     }
 }
+
