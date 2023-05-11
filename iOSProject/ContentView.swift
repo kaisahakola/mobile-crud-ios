@@ -6,28 +6,29 @@
 //
 
 import SwiftUI
+import Alamofire
 
 struct ContentView: View {
     
     @State var users : Array<User>? = nil
+    @State private var searchText = ""
     
     var body: some View {
         if(users != nil) {
             NavigationView {
                 NavigationStack {
-                    Text("Kaisa's iOS App")
-                        .bold()
-                        .font(.system(size: 30))
-                    
                     List {
-                        ForEach(users!, id: \.firstName) {
-                            user in Text("\(user.firstName) \(user.lastName)")
+                        ForEach(searchUser(search: searchText, users: users!),
+                                id: \.firstName) { user in
+                            Text("\(user.firstName) \(user.lastName)")
                         }
                     }
                     NavigationLink(destination: AddUserView()) {
                         Text("Add user")
-                    }.padding(10)
+                    }
+                    .navigationTitle("Kaisa's iOS app")
                 }
+                .searchable(text: $searchText)
             }
         } else {
             ProgressView()
@@ -39,4 +40,3 @@ struct ContentView: View {
         }
     }
 }
-
