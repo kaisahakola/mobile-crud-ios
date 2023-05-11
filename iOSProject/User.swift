@@ -10,4 +10,5 @@ import Foundation
 struct User : Decodable {
     var firstName : String
     var lastName : String
+    var id : Int
 }
