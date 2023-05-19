@@ -19,8 +19,12 @@ struct ContentView: View {
     @State private var searchText = ""
     @State private var showDeletePopup = false
     @State private var showAddUserPopup = false
+    @State private var showUpdatePopup = false
     @State private var newFirstName : String = ""
     @State private var newLastName : String = ""
+    @State private var updateFirstName : String = ""
+    @State private var updateLastName : String = ""
+    @State var selectedUser : User?
     
     // MARK: - Body
     
@@ -28,6 +32,9 @@ struct ContentView: View {
         if(users != nil) {
             NavigationView {
                 NavigationStack {
+                    // MARK: - List of users
+                    // Each user has first name, last name, delete button and
+                    // edit button.
                     List {
                         ForEach(searchUser(search: searchText, users: users!),
                                 id: \.firstName) { user in
@@ -43,12 +50,22 @@ struct ContentView: View {
                                     Image(systemName: "trash")
                                 }.buttonStyle(PlainButtonStyle())
                                     .foregroundColor(.blue)
+                                    .padding(5)
+                                
+                                Button(action: {
+                                    selectedUser = user
+                                    showUpdatePopup = true
+                                }) {
+                                    Image(systemName: "pencil")
+                                }.buttonStyle(PlainButtonStyle())
+                                    .foregroundColor(.blue)
+                                    .padding(5)
                             }
                         }
                     }
                     .navigationTitle("Kaisa's iOS app")
                     
-                    // MARK: - Add user
+                    // MARK: - Add user button
                     
                     Button(action: {
                         showAddUserPopup = true
@@ -64,12 +81,42 @@ struct ContentView: View {
                 
                 // MARK: - Alerts
                 
+                // Delete user alert
                 .alert("User deleted", isPresented: $showDeletePopup, actions: {
                     Button("OK", action: {
                         showDeletePopup = false
                     })
                 })
                 
+                // Edit user alert
+                .alert("Edit user", isPresented: $showUpdatePopup, actions: {
+                    TextField("Fist name", text: $updateFirstName)
+                    TextField("Last name", text: $updateLastName)
+                        
+                    Button("Update", action: {
+                        if let selectedUser = selectedUser {
+                            let updatedUser = User(
+                                firstName: updateFirstName,
+                                lastName: updateLastName,
+                                id: selectedUser.id
+                            )
+                            updateUser(user: updatedUser)
+                        }
+                    })
+                    Button("Cancel", role: .cancel, action: {
+                        showAddUserPopup = false
+                    })
+                })
+                .onAppear {
+                    updateFirstName = selectedUser?.firstName ?? ""
+                    updateLastName = selectedUser?.lastName ?? ""
+                }
+                .onChange(of: selectedUser) { user in
+                    updateFirstName = user?.firstName ?? ""
+                    updateLastName = user?.lastName ?? ""
+                }
+                
+                // Add user alert
                 .alert("Add user", isPresented: $showAddUserPopup, actions: {
                     TextField("Fist name", text: $newFirstName)
                     TextField("Last name", text: $newLastName)

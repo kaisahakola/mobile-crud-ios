@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User : Decodable {
+struct User : Decodable, Equatable {
     var firstName : String
     var lastName : String
     var id : Int
