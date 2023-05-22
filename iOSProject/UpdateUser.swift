@@ -13,12 +13,14 @@ func updateUser(user: User) {
     let firstName : String = user.firstName
     let lastName : String = user.lastName
     let id : Int = user.id
+    let email : String = user.email
     
     let url : String = "https://dummyjson.com/users/\(id)"
     
     let params = [
         "firstName": firstName,
-        "lastName": lastName
+        "lastName": lastName,
+        "email": email
     ]
     
     AF.request(url, method: .put, parameters: params).response { response in
