@@ -13,8 +13,7 @@ import Alamofire
 /// The function uses the 'User' object's id to send a DELETE request to the server.
 ///
 /// - Parameters:
-///     - id: The 'User' objects unique id.
-
+///    - id: The 'User' objects unique id.
 func deleteUser(id: Int) {
     let url = "https://dummyjson.com/users/\(id)"
     

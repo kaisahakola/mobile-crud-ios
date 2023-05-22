@@ -15,10 +15,9 @@ import Alamofire
 /// the deserialized 'User' object.
 ///
 /// - Parameters:
-///     - firstName: The first name of the user.
-///     - lastName: The last name of the user.
-///     - email: The email address of the user.
-
+///    - firstName: The first name of the user.
+///    - lastName: The last name of the user.
+///    - email: The email address of the user.
 func addUser(firstName: String, lastName: String, email: String) {
  
     let params = [

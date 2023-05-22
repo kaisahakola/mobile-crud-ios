@@ -15,8 +15,7 @@ import Alamofire
 /// the server with a PUT request.
 ///
 /// - Parameters:
-///     - user: A 'User' object that is selected from the list of users for editing.
-
+///    - user: A 'User' object that is selected from the list of users for editing.
 func updateUser(user: User) {
     
     let firstName : String = user.firstName
