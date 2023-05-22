@@ -6,13 +6,19 @@
 //
 
 import Foundation
+import Alamofire
 
-func searchUser(search : String, users : Array<User>) -> Array<User> {
-    if search.isEmpty {
-        return users
-    } else {
-        return (users).filter { user in
-            user.firstName.contains(search) || user.lastName.contains(search)
+func searchUser(searchText : String, callback : @escaping ([User]?) -> Void) {
+    let fixedSearchText : String = searchText.replacingOccurrences(of: " ", with: "&")
+    let url : String = "https://dummyjson.com/users/search?q=\(fixedSearchText)"
+    
+    AF.request(url).responseDecodable(of: Result.self) { response in
+        print(response)
+        switch response.result {
+        case .success(let value):
+            callback(value.users)
+        case .failure(let error):
+            print(error)
         }
     }
 }

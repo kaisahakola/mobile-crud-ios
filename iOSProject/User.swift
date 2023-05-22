@@ -11,4 +11,5 @@ struct User : Decodable, Equatable {
     var firstName : String
     var lastName : String
     var id : Int
+    var email : String
 }
