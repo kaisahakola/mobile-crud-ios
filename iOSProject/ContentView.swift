@@ -39,6 +39,10 @@ struct ContentView: View {
     @State private var updateEmail : String = ""
     /// The User from the list whose delete/edit button is clicked.
     @State var selectedUser : User?
+    /// An alert for error message.
+    @State private var showErrorPopup = false
+    /// Error message.
+    @State private var errorMessage = ""
     
     // MARK: - Body
     
@@ -50,7 +54,7 @@ struct ContentView: View {
                     List {
                         // A ForEach loop going trough the array of
                         // 'User' objects.
-                        ForEach(users!, id: \.firstName) { user in
+                        ForEach(users!, id: \.id) { user in
                             HStack {
                                 
                                 // Displaying the first name and last name with
@@ -102,7 +106,7 @@ struct ContentView: View {
                     }
                     .padding(15)
                 }
-                
+                                
                 // MARK: - Search
                 // A Searchbar which calls the searchUsers() function when user
                 // starts typing. All users on the list are then replaced by
@@ -119,7 +123,10 @@ struct ContentView: View {
                 // MARK: - Alerts
                 
                 // Alert for deleting users.
-                .alert("Delete user?", isPresented: $showDeletePopup, actions: {
+                .alert("Delete user?",
+                       isPresented: $showDeletePopup,
+                       actions: {
+                    
                     // When 'OK' button is pressed, deleteUser() is invoked.
                     Button("OK", action: {
                         if let selectedUser = selectedUser {
@@ -141,14 +148,23 @@ struct ContentView: View {
                     // When 'Update' button is pressed, updateUser() is invoked
                     // and the new updated user object is passed to it.
                     Button("Update", action: {
-                        if let selectedUser = selectedUser {
-                            let updatedUser = User(
-                                firstName: updateFirstName,
-                                lastName: updateLastName,
-                                id: selectedUser.id,
-                                email: updateEmail
-                            )
-                            updateUser(user: updatedUser)
+                        if updateFirstName.count < 2 ||
+                            updateLastName.count < 2 {
+                            
+                            showErrorPopup = true
+                            errorMessage =
+                            "Name length must be at least two characters long"
+                            
+                        } else {
+                            if let selectedUser = selectedUser {
+                                let updatedUser = User(
+                                    firstName: updateFirstName,
+                                    lastName: updateLastName,
+                                    id: selectedUser.id,
+                                    email: updateEmail
+                                )
+                                updateUser(user: updatedUser)
+                            }
                         }
                     })
                     Button("Cancel", role: .cancel, action: {
@@ -178,20 +194,40 @@ struct ContentView: View {
                     
                     // When 'add' button is pressed, addUser() is invoked.
                     Button("Add", action: {
-                        addUser(firstName: newFirstName,
-                                lastName: newLastName,
-                                📧: newEmail)
-                        
-                        // Emptying the textfields after pressing 'add' button.
-                        newFirstName = ""
-                        newLastName = ""
-                        newEmail = ""
+                        if newFirstName.count < 2 || newLastName.count < 2 {
+                            showErrorPopup = true
+                            errorMessage =
+                            "Name length must be at least two characters long."
+                            
+                            // Clearing the name textfields.
+                            newFirstName = ""
+                            newLastName = ""
+                        } else {
+                            // Invoking the addUser().
+                            addUser(firstName: newFirstName,
+                                    lastName: newLastName,
+                                    📧: newEmail)
+                            
+                            // Emptying the textfields after pressing
+                            // 'add' button.
+                            newFirstName = ""
+                            newLastName = ""
+                            newEmail = ""
+                            
+                            showAddUserPopup = false
+                        }
                     })
                     Button("Cancel", role: .cancel, action: {
                         showAddUserPopup = false
                     })
                 })
+                
+                // Error message alert.
+                .alert(isPresented: $showErrorPopup, content: {
+                    Alert(title: Text("Error"), message: Text(errorMessage))
+                })
             }
+
         } else {
             
             // MARK: - Data fetching
