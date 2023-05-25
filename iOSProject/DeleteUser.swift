@@ -17,7 +17,8 @@ import Alamofire
 func deleteUser(id: Int) {
     let url = "https://dummyjson.com/users/\(id)"
     
-    /// A http DELETE request made with Alamofire to make a connection to the server using a specified URL.
+    // An http DELETE request made with Alamofire to make a connection to the
+    // server using a specified URL.
     AF.request(url, method: .delete).response { response in
         print(response)
     }

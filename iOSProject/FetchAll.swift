@@ -18,7 +18,8 @@ import Alamofire
 func fetchData(callback : @escaping (_ users: Array<User>?) -> Void) {
     let url : String = "https://dummyjson.com/users"
     
-    /// A http GET request using Alamofire to make a connection to the server using a specified URL.
+    // An http GET request using Alamofire to make a connection to the server
+    // using a specified URL.
     AF.request(url).responseDecodable(of: Result.self) { response in
         switch response.result {
         case .success(let value):

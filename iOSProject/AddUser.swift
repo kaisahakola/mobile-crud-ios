@@ -18,22 +18,23 @@ import Alamofire
 ///    - firstName: The first name of the user.
 ///    - lastName: The last name of the user.
 ///    - email: The email address of the user.
-func addUser(firstName: String, lastName: String, email: String) {
+func addUser(firstName: String, lastName: String, 📧: String) {
  
     let params = [
         "firstName": firstName,
         "lastName": lastName,
-        "email": email
+        "email": 📧
     ]
     
     let url : String = "https://dummyjson.com/users/add"
 
-    /// A http POST request using Alamofire to make a connection to the server using a specified URL.
+    // An http POST request using Alamofire to make a connection to the server
+    // using a specified URL.
     AF.request(url, method: .post, parameters: params).response { response in
         print(response)
         let json = response.data
         
-        /// Parsing the response data JSON using JSONDecoder.
+        // Parsing the response json data using JSONDecoder.
         do {
             let jsonDecoder = JSONDecoder()
             let user : User = try jsonDecoder.decode(User.self, from: json!)

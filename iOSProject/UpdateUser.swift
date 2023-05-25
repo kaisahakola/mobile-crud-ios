@@ -31,12 +31,13 @@ func updateUser(user: User) {
         "email": email
     ]
     
-    /// A http PUT request made with Alamofire to make a connection to the server using a specified URL.
+    // A http PUT request made with Alamofire to make a connection to the
+    // server using a specified URL.
     AF.request(url, method: .put, parameters: params).response { response in
         print(response)
         let json = response.data
         
-        /// Parsing the response data JSON using JSONDecoder.
+        // Parsing the response data JSON using JSONDecoder.
         do {
             let jsonDecoder = JSONDecoder()
             let user : User = try jsonDecoder.decode(User.self, from: json!)

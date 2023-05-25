@@ -13,8 +13,12 @@ import Foundation
 /// it also conforms to the 'Equatable' protocol, enabling equality comparison between user objects.
 /// User information includes first name, last name, id and email address.
 struct User : Decodable, Equatable {
+    /// First name of the user.
     var firstName : String
+    /// Last name of the user.
     var lastName : String
+    /// Unique identifier of the user.
     var id : Int
+    /// Email address of the user.
     var email : String
 }

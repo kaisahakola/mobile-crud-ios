@@ -15,17 +15,29 @@ struct ContentView: View {
     
     // MARK: - Properties
     
+    /// Array of User objects
     @State var users : Array<User>? = nil
+    /// The text that is typed to the search bar.
     @State private var searchText = ""
+    /// When true, alert for deleting users shows.
     @State private var showDeletePopup = false
+    /// When true, alert for adding users shows.
     @State private var showAddUserPopup = false
+    /// When true, alert for updating a user shows.
     @State private var showUpdatePopup = false
+    /// New first name for adding a user.
     @State private var newFirstName : String = ""
+    /// New last name for adding a user.
     @State private var newLastName : String = ""
+    /// New email address for adding a user.
     @State private var newEmail : String = ""
+    /// Updated first name.
     @State private var updateFirstName : String = ""
+    /// Updated last name.
     @State private var updateLastName : String = ""
+    /// Updated email address.
     @State private var updateEmail : String = ""
+    /// The User from the list whose delete/edit button is clicked.
     @State var selectedUser : User?
     
     // MARK: - Body
@@ -35,14 +47,14 @@ struct ContentView: View {
             NavigationView {
                 NavigationStack {
                     // MARK: - List of users
-                    /// A list of all the users.
                     List {
-                        /// A ForEach loop going trough the array of 'User' objects.
+                        // A ForEach loop going trough the array of
+                        // 'User' objects.
                         ForEach(users!, id: \.firstName) { user in
                             HStack {
                                 
-                                /// Displaying the first name and last name with email address in
-                                /// a vertical stack.
+                                // Displaying the first name and last name with
+                                // email address in a vertical stack.
                                 VStack(alignment: .leading) {
                                     Text("\(user.firstName) \(user.lastName)")
                                     Text("\(user.email)")
@@ -52,8 +64,10 @@ struct ContentView: View {
                                 
                                 Spacer()
                                 
-                                /// A delete button which sets the selectedUser as user, so it can
-                                /// be found and used in the delete alert, outside of the loop.
+                                // A delete button which sets the
+                                // 'selectedUser' as 'user', so it can be found
+                                // and used in the delete alert, outside
+                                // of the loop.
                                 Button(action: {
                                     selectedUser = user
                                     showDeletePopup = true
@@ -63,8 +77,9 @@ struct ContentView: View {
                                     .foregroundColor(.blue)
                                     .padding(5)
                                 
-                                /// An edit button which sets the selectedUser as user, so it can
-                                /// be found and used in the update alert, outside of the loop.
+                                // An edit button which sets the 'selectedUser'
+                                // as 'user', so it can be found and used in
+                                // the update alert, outside of the loop.
                                 Button(action: {
                                     selectedUser = user
                                     showUpdatePopup = true
@@ -79,7 +94,7 @@ struct ContentView: View {
                     .navigationTitle("Kaisa's iOS app")
                     
                     // MARK: - Add user button
-                    /// Button to open the alert to add a new user.
+                    // Button to open the alert to add a new user.
                     Button(action: {
                         showAddUserPopup = true
                     }) {
@@ -89,8 +104,9 @@ struct ContentView: View {
                 }
                 
                 // MARK: - Search
-                /// A Searchbar which calls the searchUsers() function when user starts typing.
-                /// All users on the list are then replaced by the searchedUsers objects.
+                // A Searchbar which calls the searchUsers() function when user
+                // starts typing. All users on the list are then replaced by
+                // the 'searchedUsers' objects.
                 .searchable(text: $searchText)
                 .onChange(of: searchText) { _ in
                     searchUser(searchText: searchText) { searchedUsers in
@@ -102,9 +118,9 @@ struct ContentView: View {
                 
                 // MARK: - Alerts
                 
-                /// Alert for deleting users.
+                // Alert for deleting users.
                 .alert("Delete user?", isPresented: $showDeletePopup, actions: {
-                    /// When 'OK' button is pressed, deleteUser() function is called.
+                    // When 'OK' button is pressed, deleteUser() is invoked.
                     Button("OK", action: {
                         if let selectedUser = selectedUser {
                             deleteUser(id: selectedUser.id)
@@ -116,14 +132,14 @@ struct ContentView: View {
                     })
                 })
                 
-                /// Alert for editing users.
+                // Alert for editing users.
                 .alert("Edit user", isPresented: $showUpdatePopup, actions: {
                     TextField("Fist name", text: $updateFirstName)
                     TextField("Last name", text: $updateLastName)
                     TextField("Email", text: $updateEmail)
                         
-                    /// When 'Update' button is pressed, updateUser() function is called
-                    /// and the new updated user object is passed to it.
+                    // When 'Update' button is pressed, updateUser() is invoked
+                    // and the new updated user object is passed to it.
                     Button("Update", action: {
                         if let selectedUser = selectedUser {
                             let updatedUser = User(
@@ -139,30 +155,32 @@ struct ContentView: View {
                         showAddUserPopup = false
                     })
                 })
-                /// When the edit button gets pressed the first time,
-                /// onAppear method is called and selectedUser's info is diplayed.
+                // When the edit button gets pressed the first time, onAppear
+                // method is called and 'selectedUser's' info is diplayed.
                 .onAppear {
                     updateFirstName = selectedUser?.firstName ?? ""
                     updateLastName = selectedUser?.lastName ?? ""
                     updateEmail = selectedUser?.email ?? ""
                 }
-                /// When selectedUser changes, onChange method is called, and the info
-                /// that appears in the TextFields changes also.
+                // When selectedUser changes, onChange method is called, and
+                // the info that appears in the TextFields changes also.
                 .onChange(of: selectedUser) { user in
                     updateFirstName = user?.firstName ?? ""
                     updateLastName = user?.lastName ?? ""
                     updateEmail = user?.email ?? ""
                 }
                 
-                /// Alert for adding users.
+                // Alert for adding users.
                 .alert("Add user", isPresented: $showAddUserPopup, actions: {
                     TextField("Fist name", text: $newFirstName)
                     TextField("Last name", text: $newLastName)
                     TextField("Email", text: $newEmail)
                     
-                    /// When 'add' button is pressed, addUser() function is called and the TextFields are cleared.
+                    // When 'add' button is pressed, addUser() is invoked.
                     Button("Add", action: {
-                        addUser(firstName: newFirstName, lastName: newLastName, email: newEmail)
+                        addUser(firstName: newFirstName,
+                                lastName: newLastName,
+                                📧: newEmail)
                         
                         // Emptying the textfields after pressing 'add' button.
                         newFirstName = ""
@@ -177,9 +195,9 @@ struct ContentView: View {
         } else {
             
             // MARK: - Data fetching
-            /// ProgressView() triggers the data fetching by calling the fetchData() function.
-            /// The received data is the assigned to the 'users' property, which then displays
-            /// the list of users.
+            // ProgressView() triggers the data fetching by invoking
+            // fetchData(). The received data is the assigned to the
+            // 'users' property, which then displays the list of users.
             ProgressView()
                 .onAppear() {
                     fetchData() {

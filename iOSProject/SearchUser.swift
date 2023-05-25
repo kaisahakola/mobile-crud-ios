@@ -20,7 +20,8 @@ func searchUser(searchText: String, callback: @escaping (Array<User>?) -> Void) 
     let fixedSearchText : String = searchText.replacingOccurrences(of: " ", with: "&")
     let url : String = "https://dummyjson.com/users/search?q=\(fixedSearchText)"
     
-    /// A http GET request using Alamofire to make a connection to the server using a specified URL.
+    // An http GET request using Alamofire to make a connection to the server
+    // using a specified URL.
     AF.request(url).responseDecodable(of: Result.self) { response in
         print(response)
         switch response.result {
