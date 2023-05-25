@@ -10,7 +10,8 @@ import Alamofire
 
 /// A function that is used to delete users.
 ///
-/// The function uses the 'User' object's id to send a DELETE request to the server.
+/// The function uses the 'User' object's id to send a DELETE
+/// request to the server.
 ///
 /// - Parameters:
 ///    - id: The 'User' objects unique id.

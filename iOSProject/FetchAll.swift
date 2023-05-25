@@ -10,11 +10,12 @@ import Alamofire
 
 /// A function that is used to fetch all user data from the server.
 ///
-/// The function makes a connection to the server using Alamofire. It receives a list
-/// of users which is then passed to the callback closure.
+/// The function makes a connection to the server using Alamofire.
+/// It receives a list of users which is then passed to the callback closure.
 ///
 /// - Parameters:
-///    - callback: A closure that receives an Array of 'User' object or 'nil if an error occurs.
+///    - callback: A closure that receives an Array of
+///    'User' object or 'nil if an error occurs.
 func fetchData(callback : @escaping (_ users: Array<User>?) -> Void) {
     let url : String = "https://dummyjson.com/users"
     

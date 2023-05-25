@@ -10,9 +10,9 @@ import Alamofire
 
 /// A function that is used to add new users to the server.
 ///
-/// This function sends a POST request to the server with the provided user details
-/// as parameters. The response form the server is printed to console along with
-/// the deserialized 'User' object.
+/// This function sends a POST request to the server with the provided user
+/// details as parameters. The response form the server is printed to console
+/// along with the deserialized 'User' object.
 ///
 /// - Parameters:
 ///    - firstName: The first name of the user.

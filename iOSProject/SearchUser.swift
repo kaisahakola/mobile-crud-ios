@@ -10,12 +10,14 @@ import Alamofire
 
 /// A function that handles the searching of users.
 ///
-/// The function makes a connection to the server by sending a request to the specified URL, which includes
-/// the text that is typed during the searching. Any spaces are replaced with ampersands to avoid the app from crashing.
+/// The function makes a connection to the server by sending a request to the
+/// specified URL, which includes the text that is typed during the searching.
+/// Any spaces are replaced with ampersands to avoid the app from crashing.
 ///
 /// - Parameters:
 ///    - searchText: The text that is typed to the searchbar.
-///    - callback: A closure that takes an Array of 'User' objects or 'nil' if an error occures.
+///    - callback: A closure that takes an Array of 'User' objects or 'nil'
+///     if an error occures.
 func searchUser(searchText: String, callback: @escaping (Array<User>?) -> Void) {
     let fixedSearchText : String = searchText.replacingOccurrences(of: " ", with: "&")
     let url : String = "https://dummyjson.com/users/search?q=\(fixedSearchText)"
