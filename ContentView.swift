@@ -106,7 +106,7 @@ struct ContentView: View {
                     }
                     .padding(15)
                 }
-                
+                                
                 // MARK: - Search
                 // A Searchbar which calls the searchUsers() function when user
                 // starts typing. All users on the list are then replaced by
@@ -123,7 +123,10 @@ struct ContentView: View {
                 // MARK: - Alerts
                 
                 // Alert for deleting users.
-                .alert("Delete user?", isPresented: $showDeletePopup, actions: {
+                .alert("Delete user?",
+                       isPresented: $showDeletePopup,
+                       actions: {
+                    
                     // When 'OK' button is pressed, deleteUser() is invoked.
                     Button("OK", action: {
                         if let selectedUser = selectedUser {
@@ -145,9 +148,13 @@ struct ContentView: View {
                     // When 'Update' button is pressed, updateUser() is invoked
                     // and the new updated user object is passed to it.
                     Button("Update", action: {
-                        if updateFirstName.count < 2 || updateLastName.count < 2 {
+                        if updateFirstName.count < 2 ||
+                            updateLastName.count < 2 {
+                            
                             showErrorPopup = true
-                            errorMessage = "Name length must be at least two characters long"
+                            errorMessage =
+                            "Name length must be at least two characters long"
+                            
                         } else {
                             if let selectedUser = selectedUser {
                                 let updatedUser = User(
@@ -189,7 +196,8 @@ struct ContentView: View {
                     Button("Add", action: {
                         if newFirstName.count < 2 || newLastName.count < 2 {
                             showErrorPopup = true
-                            errorMessage = "Name length must be at least two characters long."
+                            errorMessage =
+                            "Name length must be at least two characters long."
                             
                             // Clearing the name textfields.
                             newFirstName = ""
@@ -200,7 +208,8 @@ struct ContentView: View {
                                     lastName: newLastName,
                                     📧: newEmail)
                             
-                            // Emptying the textfields after pressing 'add' button.
+                            // Emptying the textfields after pressing
+                            // 'add' button.
                             newFirstName = ""
                             newLastName = ""
                             newEmail = ""
@@ -218,6 +227,7 @@ struct ContentView: View {
                     Alert(title: Text("Error"), message: Text(errorMessage))
                 })
             }
+
         } else {
             
             // MARK: - Data fetching
